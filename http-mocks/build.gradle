@@ -1,0 +1,43 @@
+plugins {
+    id 'org.springframework.boot' version '2.1.4.RELEASE'
+    id 'com.palantir.docker' version '0.25.0'
+}
+
+sourceCompatibility = 17
+targetCompatibility = 17
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring Boot
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter', version: springBootVersion
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
+
+    // Faker
+    implementation 'net.datafaker:datafaker:1.8.0'
+
+    // Internal
+    implementation project(':adapters:external-http-services')
+    implementation project(':mdw:ports:http-out-api')
+}
+
+docker {
+    name "order-http-mocks"
+    tag 'currentVersion', "${DOCKER_REGISTRY}/${name}:${version}"
+    tag 'latestVersion', "${DOCKER_REGISTRY}/${name}:latest"
+    tag 'local', "${name}:local"
+    dockerfile file('docker/')
+    copySpec.from("build/libs").into("app")
+    noCache true
+}
+
+bootJar {
+    mainClassName = 'com.toptal.quizhub.http.services.mocks.MockApplication'
+    manifest {
+        attributes 'Implementation-Title': 'Iventory Operations HTTP Services Mocks'
+        attributes 'Implementation-Version': project.version
+    }
+    archiveFileName = "${archiveBaseName.get()}-${project.version}.${archiveExtension.get()}"
+}

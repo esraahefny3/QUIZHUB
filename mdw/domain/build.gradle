@@ -1,0 +1,36 @@
+dependencies {
+    // Internal
+    implementation project(':commons')
+
+    implementation project(':mdw:domain-api')
+    implementation project(':mdw:domain-catalog')
+
+    implementation project(':mdw:ports:auth-api')
+    implementation project(':mdw:ports:http-out-api')
+    implementation project(':mdw:ports:persistence-api')
+    implementation project(':mdw:ports:cache-api')
+
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: apacheCommonsVersion
+    implementation group: 'org.javers', name: 'javers-core', version: javersVersion
+
+    implementation group: 'com.google.code.findbugs', name: 'annotations', version: '3.0.1'
+    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
+
+    // Tests
+    testImplementation project(path: ':mdw:domain-catalog', configuration: 'testArtifacts')
+
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
+}
+
+//jacocoTestCoverageVerification {
+//    violationRules {
+//        rule {
+//            element = 'CLASS'
+//            limit {
+//                counter = 'LINE'
+//                value = 'COVEREDRATIO'
+//                minimum = 1.0
+//            }
+//        }
+//    }
+//}

@@ -1,0 +1,53 @@
+server:
+  port: 8080
+
+management:
+  server:
+    port: 8081
+    address: 0.0.0.0
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+amqp:
+  server-hostname: order-rabbitmq-dev
+  server-port: 5672
+
+  redis:
+    data:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      read-timeout: ${REDIS_READ_TIMEOUT:2000}
+      expire-duration: ${REDIS_EXPIRE_DURATION:120m}
+      password: ${REDIS_PASSWORD:redis}
+      prefix: ${REDIS_PREFIX:quizhub}
+
+acl-service:
+  internal:
+    url: http://order-internal-acl-service-api-dev:6568/
+
+logging:
+  level:
+    root: info
+    web: info
+    sql: info
+
+http:
+  out:
+    afroms:
+      tenants:
+        ma:
+          host: ${HTTP_OUT_AFROMS_TENANT_MA_HOST:http://order-mock-application:8083}
+          console-api-key: ${HTTP_OUT_AFROMS_TENANT_MA_API_KEY:fake-key}
+        ng:
+          host: ${HTTP_OUT_AFROMS_TENANT_NG_HOST:http://order-mock-application:8083}
+          console-api-key: ${HTTP_OUT_AFROMS_TENANT_NG_API_KEY:fake-key}
+
+flyway:
+  migrations:
+    enabled: false

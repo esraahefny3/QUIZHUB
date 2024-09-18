@@ -1,0 +1,5 @@
+dependencies {
+
+    // Internal dependencies
+    implementation project(':mdw:domain-catalog')
+}

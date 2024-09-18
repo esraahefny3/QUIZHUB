@@ -1,0 +1,29 @@
+rootProject.name = 'quizhub'
+include 'app'
+
+include ':commons'
+
+include ':mdw'
+include ':mdw:domain'
+include ':mdw:domain-api'
+include ':mdw:domain-catalog'
+
+include ':mdw:ports'
+include ':mdw:ports:http-out-api'
+include ':mdw:ports:auth-api'
+include ':mdw:ports:telemetry-api'
+include ':mdw:ports:persistence-api'
+include ':mdw:ports:cache-api'
+
+include ':adapters'
+include ':adapters:external-http-services'
+include ':adapters:rest-spring'
+include ':adapters:micrometer'
+include ':adapters:persistence:jpa'
+include ':adapters:persistence:migrations'
+include ':adapters:cache'
+include ':adapters:persistence:migrations'
+include ':adapters:auth'
+
+include 'http-mocks'
+

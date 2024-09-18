@@ -1,0 +1,11 @@
+dependencies {
+
+    // Internal dependencies
+    api project(':mdw:ports:telemetry-api')
+
+    // Prometheus
+    implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus', version: micrometerRegistryPrometheusVersion
+    implementation group: 'com.google.code.findbugs', name: 'annotations', version: '3.0.1'
+    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
+
+}

@@ -1,0 +1,105 @@
+task testJar(type: Jar, dependsOn: testClasses) {
+    from 'build/classes/java/test/'
+    archiveClassifier.set('testArtifacts')
+}
+
+configurations {
+    testArtifacts {
+        extendsFrom testRuntimeOnly
+    }
+}
+
+artifacts {
+    testArtifacts testJar
+}
+
+dependencies {
+
+    // Internal dependencies
+    implementation project(':commons')
+    implementation project(':mdw:domain-catalog')
+    implementation project(':mdw:ports:persistence-api')
+
+    // Data sources
+    implementation group: 'org.postgresql', name: 'postgresql', version: postgresqlVersion
+
+    //spring-tx
+    implementation group: 'org.springframework', name: 'spring-tx', version: '6.0.11'
+
+    //spring-data-commons
+    implementation group: 'org.springframework.data', name: 'spring-data-commons', version: '3.1.2'
+
+    // Spring
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: springBootVersion
+
+    // Jackson
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: jacksonVersion
+    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: jacksonDatatypeJSR310Version
+
+    // Mapstruct
+    implementation group: 'org.mapstruct', name: 'mapstruct', version: mapstructVersion
+
+    // Annotation Processors
+    annotationProcessor group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: springBootVersion
+
+    // Validation
+    implementation group: 'org.hibernate', name: 'hibernate-validator', version: hibernateValidatorVersion
+
+    // Hibernate Types (JsonB support)
+    implementation group: 'com.vladmihalcea', name: 'hibernate-types-52', version: hibernateTypesVersion
+
+
+    // Test implementations
+    testImplementation project(':adapters:persistence:migrations')
+    testImplementation project(path: ':mdw:domain-catalog', configuration: 'testArtifacts')
+
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
+    testImplementation group: 'org.reflections', name: 'reflections', version: reflectionsVersion
+    testImplementation group: 'org.flywaydb', name: 'flyway-core', version: flywayVersion
+    testImplementation group: 'net.datafaker', name: 'datafaker', version: javaFakerVersion
+}
+//
+//jacocoTestCoverageVerification {
+//    violationRules {
+//        rule {
+//            element = 'CLASS'
+//            limit {
+//                counter = 'LINE'
+//                value = 'COVEREDRATIO'
+//                minimum = 1.0
+//            }
+//            excludes = [
+//                    'com.toptal.quizhub.persistence.jpa.entities.*',
+//                    'com.toptal.quizhub.persistence.jpa.configuration.*',
+//                    'com.toptal.quizhub.persistence.jpa.enums.*',
+//                    'com.toptal.quizhub.persistence.jpa.converters.identifier.impl.*',
+//                    'com.toptal.quizhub.persistence.jpa.exceptions.*',
+//                    'com.toptal.quizhub.persistence.jpa.repositories.custom.utils.*',
+//                    'com.toptal.quizhub.persistence.jpa.repositories.sort.*',
+//            ]
+//        }
+//
+//        rule {
+//            element = 'CLASS'
+//            limit {
+//                counter = 'LINE'
+//                value = 'COVEREDRATIO'
+//                minimum = 0.8
+//            }
+//            includes = [
+//            ]
+//        }
+//
+//        rule {
+//            element = 'CLASS'
+//            limit {
+//                counter = 'LINE'
+//                value = 'COVEREDRATIO'
+//                minimum = 0.8
+//            }
+//            includes = [
+//
+//            ]
+//        }
+//    }
+//}

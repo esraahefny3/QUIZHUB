@@ -1,0 +1,10 @@
+dependencies {
+    implementation group: 'com.google.code.findbugs', name: 'annotations', version: '3.0.1'
+    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
+
+    // Apache commons
+    api group: 'org.apache.commons', name: 'commons-collections4', version: apacheCommonsCollections4Version
+
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: apacheCommonsLang3Version
+
+}

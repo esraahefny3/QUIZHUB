@@ -1,0 +1,43 @@
+{
+  "options": {
+    "pagination": {
+      "limit": 14,
+      "offset": 11
+    },
+    "filter": [
+      {
+        "index": "customer.email",
+        "value": "chelsie.altenwerth@gmail.com",
+        "condition": "="
+      },
+      {
+        "index": "order.shippingAddress.phone",
+        "value": "(504) 904-9715",
+        "condition": "="
+      },
+      {
+        "index": "createdAt",
+        "value": "2023-04-01 12:54:01",
+        "condition": "<"
+      },
+      {
+        "index": "orderProcess.sid",
+        "value": "1f572040-7d50-4c27-80cf-b18c67fc7b80",
+        "condition": "="
+      },
+      {
+        "index": "canBeCsVerified",
+        "value": "true",
+        "condition": "="
+      }
+    ],
+    "sort": [
+      {
+        "index": "orderNumber",
+        "order": "asc"
+      }
+    ],
+    "columns": null,
+    "export": false
+  }
+}

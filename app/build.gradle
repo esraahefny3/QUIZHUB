@@ -1,0 +1,135 @@
+plugins {
+    id 'org.springframework.boot' version '2.4.0'
+    id 'com.palantir.docker' version '0.25.0'
+    id "com.gorylenko.gradle-git-properties" version "2.4.1"
+}
+
+archivesBaseName = 'quizhub'
+
+bootJar {
+    mainClass = 'com.toptal.quizhub.app.Application'
+    manifest {
+        attributes 'Implementation-Title': 'QUIZHUB - Toptal Services Order Service'
+        attributes 'Implementation-Version': project.version
+    }
+    archiveFileName = "${archiveBaseName.get()}-${project.version}.${archiveExtension.get()}"
+}
+
+
+dependencies {
+    implementation 'org.projectlombok:lombok:1.18.18'
+
+    // Internal
+    implementation project(':mdw:domain-api')
+    implementation project(':mdw:domain-catalog')
+    implementation project(':mdw:domain')
+
+    implementation project(':commons')
+
+    implementation project(':mdw:ports:http-out-api')
+    implementation project(':mdw:ports:auth-api')
+    implementation project(':mdw:ports:persistence-api')
+    implementation project(':mdw:ports:cache-api')
+
+    implementation project(':adapters:external-http-services')
+    implementation project(':adapters:rest-spring')
+    implementation project(':adapters:micrometer')
+    implementation project(':adapters:persistence:jpa')
+    implementation project(':adapters:persistence:migrations')
+    implementation project(':adapters:auth')
+    implementation project(':adapters:cache')
+
+    // Spring Boot
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter', version: springBootVersion
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: springBootVersion
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-amqp', version: springBootVersion
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: springBootVersion
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: springBootVersion
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: springBootVersion
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: springBootVersion
+
+    //JWT
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: jwtVersion
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: jwtVersion
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: jwtVersion
+
+    // Migrations
+    implementation group: 'org.flywaydb', name: 'flyway-core', version: flywayVersion
+
+    // Hibernate
+    implementation group: 'org.hibernate', name: 'hibernate-core', version: hibernateVersion
+    implementation group: 'org.hibernate', name: 'hibernate-micrometer', version: hibernateVersion
+
+
+    // commons-pool2
+    implementation group: 'org.apache.commons', name: 'commons-pool2', version: '2.11.1'
+
+
+    implementation 'javax.persistence:javax.persistence-api:2.2'
+
+    // Hikari
+    implementation group: 'com.zaxxer', name: 'HikariCP', version: hikariVersion
+    implementation group: 'org.postgresql', name: 'postgresql', version: postgresqlVersion
+
+    // Retrofit
+    implementation group: 'com.squareup.retrofit2', name: 'retrofit', version: retrofitVersion
+    implementation group: 'com.squareup.retrofit2', name: 'converter-jackson', version: retrofitVersion
+
+
+    // MapStruct
+    implementation group: 'org.mapstruct', name: 'mapstruct', version: mapstructVersion
+
+    //Swagger
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: springDocVersion
+
+    implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.4.0-b180830.0359'
+
+    // Guava
+    implementation group: 'com.google.guava', name: 'guava', version: '30.1-jre'
+
+    //Prometheus
+    implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus', version: '1.9.2'
+
+    //redis
+    implementation group: 'io.lettuce', name: 'lettuce-core', version: ioLettuce
+
+    //Test
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
+    testImplementation group: 'org.reflections', name: 'reflections', version: reflectionsVersion
+    testImplementation group: 'org.awaitility', name: 'awaitility', version: '4.0.2'
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: jUnit5Version
+
+}
+
+configurations {
+    [apiElements, runtimeElements].each {
+        it.outgoing.artifacts.removeIf {
+            it.buildDependencies.getDependencies(null).contains(jar)
+        }
+        it.outgoing.artifact(bootJar)
+    }
+}
+
+docker {
+
+    name "order"
+
+    tag 'currentVersion', "${DOCKER_REGISTRY}/${name}:${version}"
+    tag 'latestVersion', "${DOCKER_REGISTRY}/${name}:latest"
+    tag 'local', "${name}:local"
+
+    dockerfile file('docker/order/')
+    copySpec.from("build/libs").into("app")
+
+    noCache true
+}
+
+processResources.dependsOn generateGitProperties
+
+gitProperties {
+    gitPropertiesName = "rev.txt"
+    gitPropertiesResourceDir = file("${project.rootDir}/app/src/main/resources/public/api")
+
+    customProperty 'version', { project.version }
+}

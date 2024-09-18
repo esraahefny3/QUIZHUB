@@ -1,0 +1,121 @@
+server:
+  port: 8089
+  servlet:
+    context-path: /quizhub
+
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.actuate.autoconfigure.metrics.LogbackMetricsAutoConfiguration
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  server:
+    port: 8082
+    address: 0.0.0.0
+  health:
+    rabbit:
+      enabled: false
+
+datasource:
+  url: ${DATASOURCE_TENANTS_MA_URL:jdbc:postgresql://localhost:5432/quizhub}
+  username: ${DATASOURCE_TENANTS_MA_USERNAME:postgres}
+  password: ${DATASOURCE_TENANTS_MA_PASSWORD:postgres}
+  driver-class-name: ${DATASOURCE_DEFAULT_DRIVER_CLASS_NAME:org.postgresql.Driver}
+  maximum-pool-size: ${DATASOURCE_DEFAULT_MAXIMUM_POOL_SIZE:90}
+  minimum-idle: ${DATASOURCE_DEFAULT_MINIMUM_IDLE:10}
+  idle-timeout: ${DATASOURCE_DEFAULT_IDLE_TIMEOUT:60000} # 60 seconds
+  connection-timeout: ${DATASOURCE_DEFAULT_CONNECTION_TIMEOUT:300} # 30 seconds
+  max-lifetime: ${DATASOURCE_DEFAULT_MAX_LIFE_TIME:1800000} # 30 minutes
+  leak-detection-threshold: ${DATASOURCE_DEFAULT_LEAK_DETECTION_THRESHOLD:0}
+
+logging:
+  level:
+    root: ${LOG_LEVEL:INFO}
+    web: ${LOG_LEVEL_WEB:INFO}
+    sql: ${LOGGING_LEVEL_SQL:INFO}
+    org.springframework.orm.jpa: ${LOGGING_LEVEL_ORM_JPA:ERROR}
+    org.springframework.transaction: ${LOGGING_TRANSACTION_LEVEL:ERROR}
+    org.zalando.logbook: ${LOGBOOK_LOGGING_LEVEL:TRACE}
+    org.hibernate.stat: ${LOGGING_LEVEL_HIBERNATE_STAT:DEBUG}
+    org.springframework.security: TRACE
+
+flyway:
+  migrations:
+    enabled: ${FLYWAY_MIGRATIONS_ENABLE:true}
+    location: ${FLYWAY_MIGRATIONS_LOCATION:classpath:adapters/persistence/migrations/src/main/resources/}
+
+cors:
+  web-mapping: /**
+  allowed-origins:
+    - http://localhost:9000
+    - http://localhost:4300
+    - http://localhost:4200
+  allowed-methods: GET, POST, PATCH, DELETE, PUT
+  allowed-headers:
+    - authorization
+    - x-file-type
+    - x-tenantid
+    - content-type
+    - cache-control
+    - x-requested-with
+  max-age: 1800
+
+springdoc:
+  swagger-ui:
+    enabled: true
+    showExtensions: true
+    path: "/api/documentation/swagger-ui.html"
+  use-fqn: true
+
+system:
+  user:
+    google-id: 21db916b-76ff-4b63-8951-554a260650c8
+    auth-token: "Basic YXJtYW5kby5tb250ZWlyb0BqdW1pYS5jb206cGFzc3dvcmQ="
+
+persistence:
+  debug:
+    show-sql: ${PERSISTENCE_SHOW_SQL:false}
+    format-sql: ${PERSISTENCE_FORMAT_SQL:false}
+    show-sql-comments: ${PERSISTENCE_SHOW_SQL_COMMENTS:false}
+    log-query-slower-than: ${PERSISTENCE_LOG_QUERY_SLOWER_THAN:0}
+  auto-close-session: ${PERSISTENCE_AUTO_CLOSE_SESSION:true}
+  non-contextual-lob-creation: ${PERSISTENCE_NON_CONTEXTUAL_LOB_CREATION:true}
+  jdbc-time-zone: ${PERSISTENCE_JDBC_TIME_ZONE:UTC}
+  use-get-generated-keys: ${PERSISTENCE_USE_GET_GENERATED_KEYS:true}
+  generate-statistics: ${PERSISTENCE_GENERATE_STATISTICS:true}
+
+pagination:
+  max-limit: ${PAGINATION_MAX_LIMIT:40}
+  max-export-limit: ${PAGINATION_MAX_EXPORT_LIMIT:10000}
+  default-limit: ${PAGINATION_DEFAULT_LIMIT:25}
+
+http:
+  out:
+    trivia:
+      read-timeout: ${HTTP_OUT_AFROMS_READ_TIMEOUT:2000}
+      connection-timeout: ${HTTP_OUT_AFROMS_CONNECTION_TIMEOUT:60000}
+      max-idle-connections: ${HTTP_OUT_AFROMS_MAX_IDLE_CONNECTIONS:10}
+      keep-alive: ${HTTP_OUT_AFROMS_KEEP_ALIVE:300000}
+      host: ${HTTP_OUT_TRIVIA_HOST:https://opentdb.com}
+
+auth:
+  jwtSecret: ${JWT_SECRET:======================QUIZHUB===========================} #64 char
+  jwtExpirationMs: ${JWT_EXPIRATION_MS:86400000} # 1 day
+  jwtCookieName: ${JWT_COOKIE_NAME:quizhub-cookie}
+  jwtAuthHeaderName: ${JWT_AUTH_HEADER_NAME:Authorization}
+
+
+redis:
+  host: ${REDIS_HOST:localhost}
+  port: ${REDIS_PORT:6377}
+  read-timeout: ${REDIS_READ_TIMEOUT:2000}
+  expire-duration: ${REDIS_EXPIRE_DURATION:120m}
+  prefix: ${REDIS_PREFIX:quizhub}
+

@@ -1,0 +1,63 @@
+dependencies {
+
+    // Internal dependencies
+    implementation project(':commons')
+    implementation project(':mdw:domain-catalog')
+    implementation project(':mdw:ports:http-out-api')
+
+    // Retrofit
+    implementation group: 'com.squareup.retrofit2', name: 'retrofit', version: retrofitVersion
+    implementation group: 'com.squareup.retrofit2', name: 'converter-jackson', version: retrofitVersion
+
+    // Mapstruct
+    implementation group: 'org.mapstruct', name: 'mapstruct', version: mapstructVersion
+    implementation group: 'org.mapstruct', name: 'mapstruct-processor', version: mapstructVersion
+
+    // Guava
+    implementation group: 'com.google.guava', name: 'guava', version: guavaVersion
+    implementation 'com.github.spotbugs:spotbugs-annotations:4.0.1'
+
+    // Spotbugs Annotations
+    implementation 'com.github.spotbugs:spotbugs-annotations:4.0.1'
+
+    implementation group: 'com.google.code.findbugs', name: 'annotations', version: '3.0.1'
+    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
+
+    // Tests
+    testImplementation group: 'com.squareup.okhttp3', name: 'mockwebserver', version: okHttpVersion
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
+    testImplementation project(path: ':mdw:domain-catalog', configuration: 'testArtifacts')
+}
+
+//jacocoTestCoverageVerification {
+//    violationRules {
+//        rule {
+//            element = 'CLASS'
+//            limit {
+//                counter = 'LINE'
+//                value = 'COVEREDRATIO'
+//                minimum = 1.0
+//            }
+//            excludes = [
+//                    'com.toptal.quizhub.http.services.*.requests.*',
+//                    'com.toptal.quizhub.http.services.*.responses.*',
+//                    'com.toptal.quizhub.http.*.exceptions.*',
+//                    'com.toptal.quizhub.http.services.ApiBuilder',
+//                    'com.toptal.quizhub.http.services.*.requesters.TriviaRequester',
+//                    'com.toptal.quizhub.http.services.HttpRequester',
+//                    'com.toptal.quizhub.http.services.*.constants.*'
+//            ]
+//        }
+//
+//        rule {
+//            element = 'CLASS'
+//            limit {
+//                counter = 'LINE'
+//                value = 'COVEREDRATIO'
+//                minimum = 0.8
+//            }
+//            includes = [
+//            ]
+//        }
+//    }
+//}

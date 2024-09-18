@@ -1,0 +1,10 @@
+dependencies {
+
+    // Internal dependencies
+    api project(':mdw:ports:cache-api')
+
+    //redis
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: springBootVersion
+    implementation group: 'io.lettuce', name: 'lettuce-core', version: ioLettuce
+
+}

@@ -1,0 +1,55 @@
+dependencies {
+    // Internal
+    implementation project(':mdw:domain-api')
+    implementation project(':mdw:domain-catalog')
+    implementation project(':commons')
+
+    // Spring
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: springBootVersion
+
+    // MapStruct
+    implementation group: 'org.mapstruct', name: 'mapstruct', version: mapstructVersion
+
+    // Spring doc
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-webmvc-core', version: springDocVersion
+
+    // Jackson
+    implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: jacksonVersion
+
+    implementation group: 'com.opencsv', name: 'opencsv', version: openCsvVersion
+    implementation group: 'org.zalando', name: 'logbook-spring-boot-starter', version: logBookVersion
+
+    implementation group: 'com.google.code.findbugs', name: 'annotations', version: '3.0.1'
+    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
+
+
+    // Tests
+    testImplementation project(path: ':mdw:domain-catalog', configuration: 'testArtifacts')
+    testImplementation group: 'org.awaitility', name: 'awaitility', version: '4.0.2'
+
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: jUnit5Version
+}
+
+//jacocoTestCoverageVerification {
+//    violationRules {
+//        rule {
+//            element = 'CLASS'
+//            limit {
+//                counter = 'LINE'
+//                value = 'COVEREDRATIO'
+//                minimum = 1.0
+//            }
+//            excludes = [
+//                    'com.toptal.quizhub.rest.responses.*',
+//                    'com.toptal.quizhub.rest.requests.*',
+//                    'com.toptal.quizhub.rest.exceptions.*',
+//                    'com.toptal.quizhub.rest.constants.*',
+//                    'com.toptal.quizhub.rest.configurations.*',
+//                    'com.toptal.quizhub.rest.dtos.*',
+//                    'com.toptal.quizhub.rest.handlers.RestErrorHandler',
+//            ]
+//        }
+//    }
+//}

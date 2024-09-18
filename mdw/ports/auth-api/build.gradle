@@ -1,0 +1,4 @@
+dependencies {
+    implementation project(':mdw:domain-catalog')
+    implementation project(':commons')
+}

@@ -1,0 +1,37 @@
+logging:
+  level:
+    root: info
+    web: info
+    sql: info
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+  datasource:
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:15434/quizhub
+    driver-class-name: org.postgresql.Driver
+
+
+acl-service:
+  enabled: false
+
+http:
+  out:
+    trivia:
+      read-timeout: ${HTTP_OUT_AFROMS_READ_TIMEOUT:2000}
+      connection-timeout: ${HTTP_OUT_AFROMS_CONNECTION_TIMEOUT:60000}
+      max-idle-connections: ${HTTP_OUT_AFROMS_MAX_IDLE_CONNECTIONS:10}
+      keep-alive: ${HTTP_OUT_AFROMS_KEEP_ALIVE:300000}
+      host: ${HTTP_OUT_TRIVIA_HOST:https://opentdb.com}
+
+redis:
+  host: localhost
+  port: 6377
+

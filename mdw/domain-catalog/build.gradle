@@ -1,0 +1,29 @@
+task testJar(type: Jar, dependsOn: testClasses) {
+    from 'build/classes/java/test/com/toptal/quizhub/domain/catalog'
+    into 'com/toptal/quizhub/domain/catalog'
+    archiveClassifier.set('testArtifacts')
+}
+
+configurations {
+    testArtifacts {
+        extendsFrom testRuntimeOnly
+    }
+}
+
+artifacts {
+    testArtifacts testJar
+}
+
+dependencies {
+
+    // Internal dependencies
+    implementation project(':commons')
+
+    implementation group: 'com.google.code.findbugs', name: 'annotations', version: '3.0.1'
+    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
+
+    // Tests
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: jUnit5Version
+    testImplementation 'net.datafaker:datafaker:1.8.0'
+    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.18.1'
+}

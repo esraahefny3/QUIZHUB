@@ -1,0 +1,13 @@
+dependencies {
+
+    // Internal dependencies
+    // Internal dependencies
+    implementation project(':commons')
+    implementation project(':mdw:domain-catalog')
+    implementation project(':mdw:ports:auth-api')
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: springBootVersion
+
+
+
+}

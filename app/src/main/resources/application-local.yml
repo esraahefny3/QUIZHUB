@@ -1,0 +1,49 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+
+server:
+  port: 8080
+
+management:
+  server:
+    port: 8081
+    address: 0.0.0.0
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  health:
+    rabbit:
+      enabled: false
+
+logging:
+  level:
+    root: info
+    web: info
+    sql: info
+
+flyway:
+  migrations:
+    enabled: false
+    location: classpath:adapters/persistence/migrations/src/main/resources/
+
+persistence:
+  debug:
+    show-sql: true
+    format-sql: true
+    log-query-slower-than: 20
+
+http:
+  out:
+    trivia:
+      read-timeout: ${HTTP_OUT_AFROMS_READ_TIMEOUT:2000}
+      connection-timeout: ${HTTP_OUT_AFROMS_CONNECTION_TIMEOUT:60000}
+      max-idle-connections: ${HTTP_OUT_AFROMS_MAX_IDLE_CONNECTIONS:10}
+      keep-alive: ${HTTP_OUT_AFROMS_KEEP_ALIVE:300000}
+      host: ${HTTP_OUT_TRIVIA_HOST:https://opentdb.com}

@@ -1,0 +1,33 @@
+buildscript {
+    dependencies {
+        classpath 'org.postgresql:postgresql:42.2.9'
+    }
+}
+
+plugins {
+    id "org.flywaydb.flyway" version "6.3.1"
+    id 'com.palantir.docker' version '0.25.0'
+}
+
+flyway {
+    url = project.hasProperty('url') ? project.getProperty('url') : 'jdbc:postgresql://localhost:5432/quizhub'
+    user = project.hasProperty('user') ? project.getProperty('user') : 'postgres'
+    password = project.hasProperty('password') ? project.getProperty('password') : 'postgres'
+}
+
+dependencies {
+    api group: 'org.flywaydb', name: 'flyway-core', version: flywayVersion
+}
+
+docker {
+
+    name "quizhub-migrations"
+
+    tag 'currentVersion', "${DOCKER_REGISTRY}/${name}:${version}"
+    tag 'latestVersion', "${DOCKER_REGISTRY}/${name}:latest"
+    tag 'local', "${name}:local"
+
+    dockerfile file('docker/')
+    copySpec.from("build/resources/main/db/migration").into("migrations")
+    noCache true
+}
