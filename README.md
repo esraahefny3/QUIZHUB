@@ -8,7 +8,7 @@ QUIZHUB is a **quiz builder web application** designed to allow users to create 
 - **Quiz Participation**: Users can take published quizzes and receive scores based on their answers.
 - **Quiz Analytics**: Creators can view the performance of users who took their quizzes, allowing for data gathering on quiz outcomes.
 
-QUIZHUB is built using **Java 17**, **Spring Boot 3**, **Gradle**, **Spring Security**, **Redis Cache**, and **PostgreSQL**, and offers both **RESTful** and **GraphQL** APIs to support integration with web, mobile, or desktop applications. Security is ensured by authentication and data validation.
+QUIZHUB is built using **Java 17**, **Spring Boot 3**, **Gradle**, **Spring Security**, **Redis Cache**, and **PostgreSQL**, and offers **RESTful** APIs to support integration with web, mobile, or desktop applications. Security is ensured by authentication and data validation.
 
 ### Goals:
 - Enable users to register, log in, and manage quizzes securely.
